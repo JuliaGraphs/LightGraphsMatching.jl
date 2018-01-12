@@ -30,13 +30,13 @@ function maximum_weight_matching(g::Graph,
     edge_list = collect(edges(g))
 
     # put the edge weights in w in the right order to be compatible with edge_list
-    for j in size(w,2)
-      for i in size(w,1)
+    for j in 1:n
+      for i in 1:n
+        if i > j  && w[i,j] > zero(T) && w[j,i] < w[i,j]
+          w[j,i] = w[i,j]
+        end
         if Edge(i,j) ∉ edge_list
           w[i,j] = zero(T)
-        end
-        if i > j  && w[i,j] > zero(T) && w[j,i] ≈ zero(T)
-          w[j,i] = w[i,j]
         end
       end
     end

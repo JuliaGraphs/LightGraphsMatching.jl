@@ -4,7 +4,11 @@ using LightGraphsMatching
 using Base.Test
 using Cbc: CbcSolver
 
-g =CompleteBipartiteGraph(2,2)
+g = CompleteGraph(4)
+w = LightGraphsMatching.default_weights(g)
+@test all((w + w') .≈ ones(4,4) - eye(4,4))
+
+g = CompleteBipartiteGraph(2,2)
 w = zeros(4,4)
 w[1,3] = 10.
 w[1,4] = 1.

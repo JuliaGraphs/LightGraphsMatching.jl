@@ -8,6 +8,16 @@ g = CompleteGraph(4)
 w = LightGraphsMatching.default_weights(g)
 @test all((w + w') .≈ ones(4,4) - eye(4,4))
 
+w1 = [
+    1 3
+    5 1
+]
+w0 = [
+    0 3
+    5 0
+]
+@test all(w0 .≈ LightGraphsMatching.cutoff_weights(w1, 2))
+
 g = CompleteBipartiteGraph(2,2)
 w = zeros(4,4)
 w[1,3] = 10.

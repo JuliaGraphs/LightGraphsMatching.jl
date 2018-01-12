@@ -21,17 +21,8 @@ The returned object is of type `MatchingResult`.
 function maximum_weight_maximal_matching end
 
 function maximum_weight_maximal_matching(g::Graph, solver::AbstractMathProgSolver, w::AbstractMatrix{T}, cutoff::R) where {T<:Real, R<:Real}
-    wnew = copy(w)
-    for j in size(w,2)
-        for i in size(w,1)
-            if wnew[i,j] < cutoff
-                wnew[i,j] = zero(T)
-            end
-        end
-    end
-    return maximum_weight_maximal_matching(g, solver, wnew)
+    return maximum_weight_maximal_matching(g, solver, cutoff_weights(w, cutoff))
 end
-
 
 function maximum_weight_maximal_matching(g::Graph, solver::AbstractMathProgSolver, w::AbstractMatrix{T}) where {T<:Real}
 # TODO support for graphs with zero degree nodes
@@ -107,4 +98,19 @@ function maximum_weight_maximal_matching(g::Graph, solver::AbstractMathProgSolve
     end
 
     return MatchingResult(cost, mate)
+end
+
+"""
+    cutoff_weights copies the weight matrix with all elements below cutoff set to 0
+"""
+function cutoff_weights(w::AbstractMatrix{T}, cutoff::R) where {T<:Real, R<:Real}
+    wnew = copy(w)
+    for j in 1:size(w,2)
+        for i in 1:size(w,1)
+            if wnew[i,j] < cutoff
+                wnew[i,j] = zero(T)
+            end
+        end
+    end
+    wnew
 end

@@ -18,6 +18,16 @@ w0 = [
 ]
 @test all(w0 .≈ LightGraphsMatching.cutoff_weights(w1, 2))
 
+g = CompleteGraph(3)
+w = [
+    1 2 1
+    1 1 1
+    3 1 1
+]
+match = maximum_weight_matching(g, CbcSolver(), w)
+@test match.mate[1] == 3
+@test match.weight == 3
+
 g = CompleteBipartiteGraph(2,2)
 w = zeros(4,4)
 w[1,3] = 10.

@@ -18,6 +18,8 @@ w0 = [
 ]
 @test all(w0 .≈ LightGraphsMatching.cutoff_weights(w1, 2))
 
+# lp.jl
+
 g = CompleteGraph(3)
 w = [
     1 2 1
@@ -150,18 +152,21 @@ match = maximum_weight_matching(g,CbcSolver(),w)
 @test match.mate[3] == 1
 @test match.mate[4] == -1
 
-w = Dict(Edge(1,2)=> 500)
-g =Graph(2)
-add_edge!(g,1,2)
+# blossomv.jl
+
+w = Dict(Edge(1, 2) => 500)
+g = Graph(2)
+add_edge!(g, 1, 2)
 match = minimum_weight_perfect_matching(g, w)
 @test match.mate[1] == 2
 
-
-w=Dict( Edge(1,2)=>500,
-        Edge(1,3)=>600,
-        Edge(2,3)=>700,
-        Edge(3,4)=>100,
-        Edge(2,4)=>1000)
+w = Dict(
+        Edge(1, 2) => 500,
+        Edge(1, 3) => 600,
+        Edge(2, 3) => 700,
+        Edge(3, 4) => 100,
+        Edge(2, 4) => 1000
+    )
 
 g = CompleteGraph(4)
 match = minimum_weight_perfect_matching(g, w)
@@ -187,11 +192,12 @@ match = minimum_weight_perfect_matching(g, w)
 @test match.weight == 1400
 
 g = CompleteBipartiteGraph(2,2)
-w = Dict{Edge,Float64}()
-w[Edge(1,3)] = -10
-w[Edge(1,4)] = -0.5
-w[Edge(2,3)] = -11
-w[Edge(2,4)] = -1
+w = Dict(
+        Edge(1, 3) => -10,
+        Edge(1, 4) => -0.5,
+        Edge(2, 3) => -11,
+        Edge(2, 4) => -1
+    )
 
 match = minimum_weight_perfect_matching(g, w)
 @test match.mate[1] == 4
@@ -202,12 +208,13 @@ match = minimum_weight_perfect_matching(g, w)
 
 
 g = CompleteGraph(4)
-w = Dict{Edge,Float64}()
-w[Edge(1,3)] = 10
-w[Edge(1,4)] = 0.5
-w[Edge(2,3)] = 11
-w[Edge(2,4)] = 2
-w[Edge(1,2)] = 100
+w = Dict(
+        Edge(1, 3) => 10,
+        Edge(1, 4) => 0.5,
+        Edge(2, 3) => 11,
+        Edge(2, 4) => 2
+        Edge(1, 2) => 100
+    )
 
 match = minimum_weight_perfect_matching(g, w, 50)
 @test match.mate[1] == 4

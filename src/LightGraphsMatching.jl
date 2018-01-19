@@ -29,5 +29,8 @@ using MathProgBase: AbstractMathProgSolver
 include("lp.jl")
 include("maximum_weight_matching.jl")
 
+import Hungarian
+include("hungarian.jl")
+
 end # module
 

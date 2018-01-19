@@ -41,8 +41,8 @@ match = maximum_weight_maximal_matching(g, CbcSolver(), w)
 @test match.mate[2] == 4
 @test match.mate[4] == 2
 
-g =CompleteBipartiteGraph(2,4)
-w =zeros(6,6)
+g = CompleteBipartiteGraph(2,4)
+w = zeros(6,6)
 w[1,3] = 10
 w[1,4] = 0.5
 w[2,3] = 11
@@ -54,8 +54,8 @@ match = maximum_weight_maximal_matching(g, CbcSolver(), w)
 @test match.mate[2] == 3
 @test match.mate[3] == 2
 
-g =CompleteBipartiteGraph(2,6)
-w =zeros(8,8)
+g = CompleteBipartiteGraph(2,6)
+w = zeros(8,8)
 w[1,3] = 10
 w[1,4] = 0.5
 w[2,3] = 11
@@ -69,7 +69,7 @@ match = maximum_weight_maximal_matching(g,CbcSolver(),w,0)
 @test match.mate[2] == 3
 @test match.mate[3] == 2
 
-g =CompleteBipartiteGraph(4,2)
+g = CompleteBipartiteGraph(4,2)
 w = zeros(6,6)
 w[3,5] = 10
 w[3,6] = 0.5
@@ -100,7 +100,7 @@ add_edge!(g, 1,3)
 add_edge!(g, 1,4)
 add_edge!(g, 2,4)
 
-w =zeros(4,4)
+w = zeros(4,4)
 w[1,3] = 1
 w[1,4] = 3
 w[2,4] = 1
@@ -186,8 +186,8 @@ match = minimum_weight_perfect_matching(g, w)
 @test match.mate[4] == 2
 @test match.weight == 1400
 
-g =CompleteBipartiteGraph(2,2)
-w =Dict{Edge,Float64}()
+g = CompleteBipartiteGraph(2,2)
+w = Dict{Edge,Float64}()
 w[Edge(1,3)] = -10
 w[Edge(1,4)] = -0.5
 w[Edge(2,3)] = -11
@@ -201,8 +201,8 @@ match = minimum_weight_perfect_matching(g, w)
 @test match.weight == -11.5
 
 
-g =CompleteGraph(4)
-w =Dict{Edge,Float64}()
+g = CompleteGraph(4)
+w = Dict{Edge,Float64}()
 w[Edge(1,3)] = 10
 w[Edge(1,4)] = 0.5
 w[Edge(2,3)] = 11

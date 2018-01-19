@@ -21,12 +21,8 @@ struct MatchingResult{T<:Real}
     mate::Vector{Int}
 end
 
-try
-    import BlossomV
-    include("blossomv.jl")
-catch
-    warn("Function minimum_weight_perfect_matching will not be available until you install BlossomV.jl.")
-end
+import BlossomV
+include("blossomv.jl")
 
 using JuMP
 using MathProgBase: AbstractMathProgSolver

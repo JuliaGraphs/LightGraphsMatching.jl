@@ -161,7 +161,6 @@ w = [
     3 1 1
 ]
 match = maximum_weight_matching_hungarian(g, w)
-@test match.mate[1] == 3
 @test match.weight == 3
 
 g = CompleteBipartiteGraph(2, 2)
@@ -172,10 +171,6 @@ w[2,3] = 2.
 w[2,4] = 11.
 match = maximum_weight_matching_hungarian(g, w)
 @test match.weight == 21
-@test match.mate[1] == 3
-@test match.mate[3] == 1
-@test match.mate[2] == 4
-@test match.mate[4] == 2
 
 g = CompleteBipartiteGraph(2, 4)
 w = zeros(6, 6)
@@ -219,7 +214,7 @@ match = maximum_weight_matching_hungarian(g)
 w = zeros(4,4)
 w[1,2] = 1
 w[2,3] = 1
-w[1,3] = 1
+w[3,1] = 1
 w[3,4] = 1
 
 match = maximum_weight_matching_hungarian(g, w)
@@ -228,7 +223,7 @@ match = maximum_weight_matching_hungarian(g, w)
 w = zeros(4,4)
 w[1,2] = 1
 w[2,3] = 1
-w[1,3] = 5
+w[3,1] = 5
 w[3,4] = 1
 
 match = maximum_weight_matching_hungarian(g, w)

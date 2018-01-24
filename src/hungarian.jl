@@ -1,8 +1,8 @@
 """
-maximum_weight_matching_hungarian{T <:Real}(g::Graph, w::Dict{Edge,T} = Dict{Edge,Int64}())
+maximum_weight_maximal_matching_hungarian{T <:Real}(g::Graph, w::Dict{Edge,T} = Dict{Edge,Int64}())
 
 Given a graph `g` and an edgemap `w` containing weights associated to edges,
-returns a matching with the maximum total weight.
+returns a maximal matching with the maximum total weight.
 `w` is a dictionary that maps edges i => j to weights.
 If no weight parameter is given, all edges will be considered to have weight 1
 (results in max cardinality matching). 
@@ -13,51 +13,48 @@ Returns MatchingResult containing:
   - the optimal cost
   - a list of each vertex's match (or -1 for unmatched vertices)
 """
-function maximum_weight_matching_hungarian end
+function maximum_weight_maximal_matching_hungarian end
 
-function maximum_weight_matching_hungarian(g::Graph,
-          w::AbstractMatrix{T} = default_weights(g)) where {T <:Real}
+function maximum_weight_maximal_matching_hungarian(g::Graph,
+          w::AbstractMatrix{T}=default_weights(g)) where {T <: Real}
   edge_list = collect(edges(g))
   n = nv(g)
 
-  # remove weights that are not in the graph, i.e. set them to a large value to ensure they are not taken
-  scale = - 2 * one(T) * maximum(w)
-  for j in 1:n
-    for i in 1:n
-      # if i > j  && w[i,j] > zero(T) && w[j,i] < w[i,j]
-      #   w[j,i] = w[i,j]
-      # end
-      if Edge(i, j) ∉ edge_list
-        println("Rescaled: ($i, $j); was: $(w[i, j])")
-        w[i, j] = scale
+  # munkres() minimises the total cost, while this function is supposed to maximise the total weights
+  wDual = maximum(w) - w
+
+  # remove weights that are not in the graph.
+  weights = AbstractMatrix{Union{Missing, T}}(wDual)
+  for i in 1:n
+    for j in 1:n
+      if Edge(i, j) ∉ edge_list && Edge(j, i) ∉ edge_list 
+        weights[i, j] = missing
+        weights[j, i] = missing
       end
     end
   end
 
-  # call the library and convert to the right format
-  # hungarian() minimises the total cost, while this function is supposed to maximise the total weights
-  println(w)
-  println(maximum(w) - w)
-  assignment, hc = Hungarian.hungarian(maximum(w) - w)
-  println("Hungarian: $(maximum(w) - hc)")
+  # run the Hungarian algorithm
+  assignment, _ = hungarian(weights)
 
-  mate = fill(-1, nv(g)) # initialise to unmatched
+  # convert the output format to LGMatching's
+  mate = fill(-1, n) # initialise to unmatched
   for i in 1:length(assignment)
-    if assignment[i] != 0 # if matched
+    if assignment[i] != 0 # if matched 
       mate[i] = assignment[i]
       mate[assignment[i]] = i
     end
   end
 
+  # compute the cost for this matching
   cost = zero(T)
   for i in 1:length(assignment)
-    if assignment[i] != 0 && Edge(i, assignment[i]) ∈ edge_list # if matched and allowed (with the high cost for these edges, only chosen to have a maximum matching)
-      println(w[i, assignment[i]])
+    # if matched and allowed (with the high cost for these edges, only chosen to have a maximum matching)
+    if assignment[i] != 0 && (Edge(i, assignment[i]) ∈ edge_list || Edge(assignment[i], i) ∈ edge_list)
+      println("$i, $(assignment[i]): $(w[i, assignment[i]])")
       cost += w[i, assignment[i]]
     end
   end
-
-  println("==================================")
 
   # return the result
   return MatchingResult(cost, mate)

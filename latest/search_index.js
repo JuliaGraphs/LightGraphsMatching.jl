@@ -61,7 +61,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Getting started",
     "title": "LightGraphsMatching.jl: matching algorithms for LightGraphs",
     "category": "section",
-    "text": "CurrentModule = LightGraphsMatching\nDocTestSetup = quote\n    using LightGraphsMatching\n    import LightGraphs\n    const lg = LightGraphs\nendModules = [LightGraphsMatching]\nPages = [\"LightGraphsMatching.jl\", \"maximum_weight_matching.jl\", \"lp.jl\", \"blossomv.jl\"]\nOrder = [:function, :type]This is the documentation page for LightGraphsMatching.  In all documentation examples, we assume LightGraphsMatching has been imported into scope and that LightGraphs is available with the alias lg:using LightGraphsMatching\nimport LightGraphs\nconst lg = LightGraphs"
+    "text": "CurrentModule = LightGraphsMatching\nDocTestSetup = quote\n    using LightGraphsMatching\n    import LightGraphs\n    const lg = LightGraphs\nendThis is the documentation page for LightGraphsMatching.  In all documentation examples, we assume LightGraphsMatching has been imported into scope and that LightGraphs is available with the alias lg:using LightGraphsMatching\nimport LightGraphs\nconst lg = LightGraphsModules = [LightGraphsMatching]\nPages = [\"LightGraphsMatching.jl\", \"maximum_weight_matching.jl\", \"lp.jl\", \"blossomv.jl\"]\nOrder = [:function, :type]"
 },
 
 ]}

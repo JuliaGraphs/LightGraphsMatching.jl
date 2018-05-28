@@ -1,6 +1,14 @@
 var documenterSearchIndex = {"docs": [
 
 {
+    "location": "index.html#",
+    "page": "Getting started",
+    "title": "Getting started",
+    "category": "page",
+    "text": ""
+},
+
+{
     "location": "index.html#LightGraphsMatching.MatchingResult",
     "page": "Getting started",
     "title": "LightGraphsMatching.MatchingResult",
@@ -49,11 +57,11 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
-    "location": "index.html#",
+    "location": "index.html#LightGraphsMatching.jl:-matching-algorithms-for-LightGraphs-1",
     "page": "Getting started",
-    "title": "Getting started",
-    "category": "page",
-    "text": "CurrentModule = LightGraphsMatching\nDocTestSetup = quote\n    using LightGraphsMatching\n    import LightGraphs\n    const lg = LightGraphs\nendModules = [LightGraphsMatching]\nPages = [\"LightGraphsMatching.jl\", \"maximum_weight_matching.jl\", \"lp.jl\", \"blossomv.jl\"]\nOrder = [:function, :type]"
+    "title": "LightGraphsMatching.jl: matching algorithms for LightGraphs",
+    "category": "section",
+    "text": "CurrentModule = LightGraphsMatching\nDocTestSetup = quote\n    using LightGraphsMatching\n    import LightGraphs\n    const lg = LightGraphs\nendModules = [LightGraphsMatching]\nPages = [\"LightGraphsMatching.jl\", \"maximum_weight_matching.jl\", \"lp.jl\", \"blossomv.jl\"]\nOrder = [:function, :type]This is the documentation page for LightGraphsMatching.  In all documentation examples, we assume LightGraphsMatching has been imported into scope and that LightGraphs is available with the alias lg:using LightGraphsMatching\nimport LightGraphs\nconst lg = LightGraphs"
 },
 
 ]}

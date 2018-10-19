@@ -1,5 +1,5 @@
-julia 0.6
-LightGraphs 0.12
-JuMP 0.13
-MatrixDepot
-BlossomV 0.3
+julia 0.7
+LightGraphs 1.2.0
+JuMP 0.18.3
+MathProgBase 0.7.7
+BlossomV 0.4

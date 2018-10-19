@@ -11,7 +11,7 @@ import BlossomV # 'using BlossomV'  leads to naming conflicts with JuMP
 export MatchingResult, maximum_weight_matching, maximum_weight_maximal_matching, minimum_weight_perfect_matching
 
 """
-    type MatchingResult{U}
+    struct MatchingResult{U}
         weight::U
         mate::Vector{Int}
     end

@@ -154,8 +154,8 @@ match = maximum_weight_matching(g,CbcSolver(),w)
 
 # hungarian.jl
 
-g = CompleteBipartiteGraph(2,2)
-w = zeros(4,4)
+g = CompleteBipartiteGraph(2, 2)
+w = zeros(4, 4)
 w[1,3] = 10.
 w[1,4] = 1.
 w[2,3] = 2.
@@ -166,6 +166,14 @@ match = maximum_weight_maximal_matching_hungarian(g, w)
 @test match.mate[3] == 1
 @test match.mate[2] == 4
 @test match.mate[4] == 2
+
+g = Graph(3)
+add_edge!(g, 1, 2)
+add_edge!(g, 1, 3)
+add_edge!(g, 2, 3)
+w = zeros(3, 3)
+@test ! is_bipartite(g)
+@test_throws ErrorException maximum_weight_maximal_matching_hungarian(g, w)
 
 # blossomv.jl
 

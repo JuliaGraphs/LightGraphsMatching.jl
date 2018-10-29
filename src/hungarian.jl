@@ -20,42 +20,67 @@ function maximum_weight_maximal_matching_hungarian(g::Graph,
   edge_list = collect(edges(g))
   n = nv(g)
 
-  # munkres() minimises the total cost, while this function is supposed to maximise the total weights
+  # Determine the bipartition of the graph. 
+  bipartition = bipartite_map(g)
+  if length(bipartition) != n # Equivalent to !is_bipartite(g), but reuses the results of the previous function call.
+    error("The Hungarian algorithm only works for bipartite graphs; otherwise, prefer the Blossom algorithm (not yet available in LightGraphsMatching")
+  end
+  n_first = count(bipartition .== 1)
+  n_second = count(bipartition .== 2)
+
+  to_bipartition_1 = [count(bipartition[1:i] .== 1) for i in 1:n]
+  to_bipartition_2 = [count(bipartition[1:i] .== 2) for i in 1:n]
+
+  # hungarian() minimises the total cost, while this function is supposed to maximise the total weights.
   wDual = maximum(w) - w
 
-  # remove weights that are not in the graph.
-  weights = AbstractMatrix{Union{Missing, T}}(wDual)
+  # Remove weights that are not in the graph (Hungarian.jl considers all weights that are not missing values as real edges).
+  # Assume w is symmetric, so that the weight of matching i->j is the same as the one for j->i. 
+  weights = Matrix{Union{Missing, T}}(n_first, n_second)
+  fill!(weights, missing)
+
   for i in 1:n
     for j in 1:n
-      if Edge(i, j) ∉ edge_list && Edge(j, i) ∉ edge_list 
-        weights[i, j] = missing
-        weights[j, i] = missing
+      if Edge(i, j) ∈ edge_list || Edge(j, i) ∈ edge_list 
+        if bipartition[i] == 1 # and bipartition[j] == 2
+          idx_first = to_bipartition_1[i]
+          idx_second = to_bipartition_2[j]
+        else # bipartition[i] == 2 and bipartition[j] == 1
+          idx_first = to_bipartition_1[j]
+          idx_second = to_bipartition_2[i]
+        end
+
+        weight_to_add = (Edge(i, j) ∈ edge_list) ? wDual[i, j] : wDual[j, i]
+
+        weights[idx_first, idx_second] = weight_to_add
       end
     end
   end
 
-  # run the Hungarian algorithm
+  # Run the Hungarian algorithm.
   assignment, _ = hungarian(weights)
 
-  # convert the output format to LGMatching's
-  mate = fill(-1, n) # initialise to unmatched
+  # Convert the output format to match LGMatching's. 
+  pairs = Tuple{Int, Int}[]
+  mate = fill(-1, n) # Initialise to unmatched. 
   for i in 1:length(assignment)
-    if assignment[i] != 0 # if matched 
-      mate[i] = assignment[i]
-      mate[assignment[i]] = i
+    if assignment[i] != 0 # If matched: 
+      original_i = find(to_bipartition_1 .== i)[1]
+      original_j = find(to_bipartition_2 .== assignment[i])[1]
+
+      mate[original_i] = original_j
+      mate[original_j] = original_i
+
+      push!(pairs, (original_i, original_j))
     end
   end
 
-  # compute the cost for this matching
+  # Compute the cost for this matching (as weights had to be changed for Hungarian.jl, the one returned by hungarian() makes no sense). 
   cost = zero(T)
-  for i in 1:length(assignment)
-    # if matched and allowed (with the high cost for these edges, only chosen to have a maximum matching)
-    if assignment[i] != 0 && (Edge(i, assignment[i]) ∈ edge_list || Edge(assignment[i], i) ∈ edge_list)
-      println("$i, $(assignment[i]): $(w[i, assignment[i]])")
-      cost += w[i, assignment[i]]
-    end
+  for i in 1:length(pairs)
+    cost += w[pairs[i][1], pairs[i][2]]
   end
 
-  # return the result
+  # Return the result.
   return MatchingResult(cost, mate)
 end

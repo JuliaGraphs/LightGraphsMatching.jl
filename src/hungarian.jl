@@ -63,7 +63,7 @@ function maximum_weight_maximal_matching_hungarian(g::Graph,
   # Convert the output format to match LGMatching's. 
   pairs = Tuple{Int, Int}[]
   mate = fill(-1, n) # Initialise to unmatched. 
-  for i in 1:length(assignment)
+  for i in eachindex(assignment)
     if assignment[i] != 0 # If matched: 
       original_i = find(to_bipartition_1 .== i)[1]
       original_j = find(to_bipartition_2 .== assignment[i])[1]
@@ -76,10 +76,7 @@ function maximum_weight_maximal_matching_hungarian(g::Graph,
   end
 
   # Compute the cost for this matching (as weights had to be changed for Hungarian.jl, the one returned by hungarian() makes no sense). 
-  cost = zero(T)
-  for i in 1:length(pairs)
-    cost += w[pairs[i][1], pairs[i][2]]
-  end
+  cost = sum(w[p[1], p[2]] for p in pairs)
 
   # Return the result.
   return MatchingResult(cost, mate)

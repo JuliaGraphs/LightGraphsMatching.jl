@@ -1,20 +1,3 @@
-"""
-maximum_weight_maximal_matching_hungarian{T <:Real}(g::Graph, w::Dict{Edge,T} = Dict{Edge,Int64}())
-
-Given a graph `g` and an edgemap `w` containing weights associated to edges,
-returns a maximal matching with the maximum total weight.
-`w` is a dictionary that maps edges i => j to weights.
-If no weight parameter is given, all edges will be considered to have weight 1
-(results in max cardinality matching). 
-
-The algorithm is always polynomial in time, with complexity O(n³). 
-
-Returns MatchingResult containing:
-  - the optimal cost
-  - a list of each vertex's match (or -1 for unmatched vertices)
-"""
-function maximum_weight_maximal_matching_hungarian end
-
 function maximum_weight_maximal_matching_hungarian(g::Graph,
           w::AbstractMatrix{T}=default_weights(g)) where {T <: Real}
   edge_list = collect(edges(g))

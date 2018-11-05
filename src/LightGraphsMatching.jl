@@ -1,7 +1,7 @@
 __precompile__(true)
 module LightGraphsMatching
 using LightGraphs
-export MatchingResult, maximum_weight_matching, maximum_weight_maximal_matching, minimum_weight_perfect_matching, maximum_weight_maximal_matching_hungarian
+export MatchingResult, maximum_weight_matching, maximum_weight_maximal_matching, minimum_weight_perfect_matching
 
 """
     type MatchingResult{T}
@@ -31,5 +31,7 @@ include("maximum_weight_matching.jl")
 
 using Hungarian, Missings
 include("hungarian.jl")
+
+include("maximum_weight_maximal_matching.jl")
 
 end # module

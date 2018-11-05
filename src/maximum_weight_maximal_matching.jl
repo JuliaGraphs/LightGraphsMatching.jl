@@ -20,7 +20,7 @@ function maximum_weight_maximal_matching(
         error("The keyword argument solver must be an AbstractMathProgSolver, as accepted by JuMP.")
     end
 
-    return maximum_weight_maximal_matching(g, solver, w)
+    return maximum_weight_maximal_matching_lp(g, solver, w)
 end
 
 """
@@ -40,7 +40,6 @@ end
 
 """
     maximum_weight_maximal_matching{T<:Real}(g, w::Dict{Edge,T})
-    maximum_weight_maximal_matching{T<:Real}(g, w::Dict{Edge,T}, cutoff)
 
 Given a bipartite graph `g` and an edge map `w` containing weights associated to edges,
 returns a matching with the maximum total weight among the ones containing the
@@ -66,14 +65,19 @@ The returned object is of type `MatchingResult`.
 function maximum_weight_maximal_matching(
         g::Graph, 
         w::AbstractMatrix{T}; 
-        cutoff::R = typemax(R),
+        cutoff = nothing,
         algorithm::AbstractMaximumWeightMaximalMatchingAlgorithm = HungarianAlgorithm(), 
         solver = nothing
-    ) where {T<:Real, R<:Real}
-    if cutoff < typemax(R)
-        return maximum_weight_maximal_matching(g, solver, cutoff_weights(w, cutoff); algorithm=algorithm, solver=solver)
+    ) where {T<:Real}
+
+    if cutoff != nothing && ! isa(cutoff, Real)
+        error("The cutoff value must be of type Real or nothing.")
+    end
+
+    if cutoff != nothing
+        return maximum_weight_maximal_matching(g, cutoff_weights(w, cutoff), algorithm, solver)
     else
-        return maximum_weight_maximal_matching(g, solver, cutoff_weights(w, cutoff); algorithm=algorithm, solver=solver)
+        return maximum_weight_maximal_matching(g, w, algorithm, solver)
     end
 end
 
@@ -91,3 +95,5 @@ function cutoff_weights(w::AbstractMatrix{T}, cutoff::R) where {T<:Real, R<:Real
     end
     wnew
 end
+
+@deprecate maximum_weight_maximal_matching(g::Graph, solver::AbstractMathProgSolver, w::AbstractMatrix{T}, cutoff::R) where {T<:Real, R<:Real} maximum_weight_maximal_matching(g, w, algorithm=LPAlgorithm(), cutoff=cutoff, solver=solver)

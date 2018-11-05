@@ -1,8 +1,8 @@
-function maximum_weight_maximal_matching(g::Graph, solver::AbstractMathProgSolver, w::AbstractMatrix{T}, cutoff::R) where {T<:Real, R<:Real}
-    return maximum_weight_maximal_matching(g, solver, cutoff_weights(w, cutoff))
+function maximum_weight_maximal_matching_lp(g::Graph, solver::AbstractMathProgSolver, w::AbstractMatrix{T}, cutoff::R) where {T<:Real, R<:Real}
+    return maximum_weight_maximal_matching_lp(g, solver, cutoff_weights(w, cutoff))
 end
 
-function maximum_weight_maximal_matching(g::Graph, solver::AbstractMathProgSolver, w::AbstractMatrix{T}) where {T<:Real}
+function maximum_weight_maximal_matching_lp(g::Graph, solver::AbstractMathProgSolver, w::AbstractMatrix{T}) where {T<:Real}
 # TODO support for graphs with zero degree nodes
 # TODO apply separately on each connected component
     bpmap = bipartite_map(g)

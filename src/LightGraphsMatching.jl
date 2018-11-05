@@ -1,7 +1,7 @@
 __precompile__(true)
 module LightGraphsMatching
 using LightGraphs
-export MatchingResult, maximum_weight_matching, maximum_weight_maximal_matching, minimum_weight_perfect_matching
+export MatchingResult, maximum_weight_matching, maximum_weight_maximal_matching, minimum_weight_perfect_matching, HungarianAlgorithm, LPAlgorithm
 
 """
     type MatchingResult{T}
@@ -21,8 +21,8 @@ struct MatchingResult{T<:Real}
     mate::Vector{Int}
 end
 
-# import BlossomV
-# include("blossomv.jl")
+import BlossomV
+include("blossomv.jl")
 
 using JuMP
 using MathProgBase: AbstractMathProgSolver

@@ -7,8 +7,8 @@ function maximum_weight_maximal_matching_lp(g::Graph, solver::AbstractMathProgSo
 # TODO apply separately on each connected component
     bpmap = bipartite_map(g)
     length(bpmap) != nv(g) && error("Graph is not bipartite")
-    v1 = findin(bpmap, 1)
-    v2 = findin(bpmap, 2)
+    v1 = findall(isequal(1), bpmap)
+    v2 = findall(isequal(2), bpmap)
     if length(v1) > length(v2)
         v1, v2 = v2, v1
     end
@@ -66,7 +66,7 @@ function maximum_weight_maximal_matching_lp(g::Graph, solver::AbstractMathProgSo
 
     mate = fill(-1, nv(g))
     for e in edges(g)
-        if w[src(e),dst(e)] > zero(T)
+        if w[src(e),dst(e)] > zero(U)
             inmatch = convert(Bool, sol[edgemap[e]])
             if inmatch
                 mate[src(e)] = dst(e)

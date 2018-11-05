@@ -2,6 +2,6 @@ julia 0.6
 LightGraphs 0.9.0
 JuMP 0.13.2
 MatrixDepot
-BlossomV 0.1
+BlossomV 0.3
 Hungarian 0.2
 Missings

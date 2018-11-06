@@ -66,7 +66,7 @@ function maximum_weight_maximal_matching_lp(g::Graph, solver::AbstractMathProgSo
 
     mate = fill(-1, nv(g))
     for e in edges(g)
-        if w[src(e),dst(e)] > zero(U)
+        if w[src(e),dst(e)] > zero(T)
             inmatch = convert(Bool, sol[edgemap[e]])
             if inmatch
                 mate[src(e)] = dst(e)

@@ -1,6 +1,6 @@
 julia 0.7
 LightGraphs 1.2
 JuMP 0.20
-MathOptInterface 0.9.0
+MathOptInterface 0.9
 BlossomV 0.4
 Hungarian 0.2

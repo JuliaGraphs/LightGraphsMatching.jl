@@ -1,4 +1,4 @@
-julia 0.7
+julia 1
 LightGraphs 1.2
 JuMP 0.20
 MathOptInterface 0.9

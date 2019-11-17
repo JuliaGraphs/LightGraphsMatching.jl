@@ -255,5 +255,24 @@ end
     @test match.weight ≈ 11.5
 end
 
+@testset "maximum_cardinality_matching"
+    g = Graph(12)
+    add_edge!(g, 1, 8)
+    add_edge!(g, 1, 9)
+    add_edge!(g, 1,12)
+    add_edge!(g, 2, 7)
+    add_edge!(g, 3, 8)
+    add_edge!(g, 3, 9)
+    add_edge!(g, 3,10)
+    add_edge!(g, 3,11)
+    add_edge!(g, 4,10)
+    add_edge!(g, 4,11)
+    add_edge!(g, 5,12)
+    add_edge!(g, 6,11)
+    add_edge!(g, 6,12)
+
+    # TODO:
+    # match = maximum_weight_matching(g,Cbc.Optimizer)
+end
 
 end

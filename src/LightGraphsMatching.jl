@@ -6,7 +6,7 @@ using SparseArrays: spzeros
 
 using JuMP
 using MathOptInterface
-MOI = MathOptInterface
+const MOI = MathOptInterface
 import BlossomV # 'using BlossomV'  leads to naming conflicts with JuMP
 using Hungarian
 

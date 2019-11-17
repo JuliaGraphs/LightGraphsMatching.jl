@@ -16,8 +16,8 @@ containing the `mate` and `weight` fields.
 ### Perfect matching
 
 ```julia
-g =complete_graph(4)
-w =Dict{Edge,Float64}()
+g = complete_graph(4)
+w = Dict{Edge,Float64}()
 w[Edge(1,3)] = 10
 w[Edge(1,4)] = 0.5
 w[Edge(2,3)] = 11

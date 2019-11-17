@@ -51,7 +51,7 @@ function maximum_weight_matching(g::Graph,
     @constraint(model, c1[i=1:n], sum(x[Edge(minmax(i,j))] for j in neighbors(g,i)) <= 1)
     optimize!(model)
     status = JuMP.termination_status(model)
-    status != MOI.OPTIMAL  && error("JuMP solver failed to find optimal solution.")
+    status != MOI.OPTIMAL && error("JuMP solver failed to find optimal solution.")
     solution = value.(x)
     cost = objective_value(model)
     return MatchingResult(cost, dict_to_arr(n, solution, edge_list))

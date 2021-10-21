@@ -256,5 +256,78 @@ end
     @test match.weight ≈ 11.5
 end
 
+@testset "maximum_cardinality_matching" begin
+    # graph a in https://en.wikipedia.org/wiki/Matching_(graph_theory)#/media/File:Maximum-matching-labels.svg
+    g = Graph(6)
+    add_edge!(g, 1, 2)
+    add_edge!(g, 1, 6)
+    add_edge!(g, 2, 3)
+    add_edge!(g, 2, 4)
+    add_edge!(g, 2, 5)
+    add_edge!(g, 2, 6)
+
+    mr = maximum_cardinality_matching(g)
+    @test mr.weight == 2
+    @test mr.mate[1] == 6
+    @test 3 <= mr.mate[2] <= 5
+    @test mr.mate[mr.mate[2]] == 2
+    @test mr.mate[6] == 1
+
+    # graph b in https://en.wikipedia.org/wiki/Matching_(graph_theory)#/media/File:Maximum-matching-labels.svg
+    g = Graph(Int8(6))
+    add_edge!(g, 1, 2)
+    add_edge!(g, 1, 4)
+    add_edge!(g, 2, 3)
+    add_edge!(g, 2, 4)
+    add_edge!(g, 3, 5)
+    add_edge!(g, 4, 5)
+    add_edge!(g, 5, 6)
+
+    mr = maximum_cardinality_matching(g)
+    @test mr.weight == 3
+    @test mr.mate[1] == 4
+    @test mr.mate[2] == 3
+    @test mr.mate[3] == 2
+    @test mr.mate[4] == 1
+    @test mr.mate[5] == 6
+    @test mr.mate[6] == 5
+
+    # graph c in https://en.wikipedia.org/wiki/Matching_(graph_theory)#/media/File:Maximum-matching-labels.svg
+    g = Graph(5)
+    add_edge!(g, 1, 2)
+    add_edge!(g, 1, 5)
+    add_edge!(g, 2, 3)
+    add_edge!(g, 2, 5)
+    add_edge!(g, 3, 4)
+    add_edge!(g, 4, 5)
+
+    mr = maximum_cardinality_matching(g)
+    @test mr.weight == 2
+
+    g = Graph()
+    add_edge!(g, 1, 2)
+    add_edge!(g, 1, 4)
+    add_edge!(g, 2, 3)
+    add_edge!(g, 2, 4)
+    add_edge!(g, 3, 5)
+    add_edge!(g, 4, 5)
+    add_edge!(g, 5, 6)
+
+    # same as in maximum_weight_matching
+    g = Graph(4)
+    add_edge!(g, 1,2)
+    add_edge!(g, 2,3)
+    add_edge!(g, 3,1)
+    add_edge!(g, 3,4)
+
+    match = maximum_cardinality_matching(g)
+    @test match.weight == 2
+    @test match.mate[1] == 2
+    @test match.mate[2] == 1
+    @test match.mate[3] == 4
+    @test match.mate[4] == 3
+
+
+end
 
 end
